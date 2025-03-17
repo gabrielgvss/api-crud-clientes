@@ -1,10 +1,11 @@
 package com.trabalho.api_clientes.dto;
 
 import com.trabalho.api_clientes.model.Cliente;
+
 import java.time.LocalDate;
 
 public class ClienteDTO {
-    private Long id;
+    private int id;
     private String nome;
     private LocalDate dataNascimento;
     private String cpf;
@@ -14,42 +15,30 @@ public class ClienteDTO {
 
     public ClienteDTO() {}
 
-    // Construtor que cria um DTO a partir de um model Cliente
-    private ClienteDTO(Cliente cliente) {
-        this.id = cliente.getId();
-        this.nome = cliente.getNome();
-        this.dataNascimento = cliente.getDataNascimento();
-        this.cpf = cliente.getCpf();
-        this.endereco = cliente.getEndereco();
-        this.telefone = cliente.getTelefone();
-        this.email = cliente.getEmail();
+    public ClienteDTO(int id, String nome, LocalDate dataNascimento, String cpf, String endereco, String email, String telefone) {
+        this.id = id;
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.cpf = cpf;
+        this.endereco = endereco;
+        this.email = email;
+        this.telefone = telefone;
     }
 
-    // Método para criar um DTO de Cliente de um Model
-    public static ClienteDTO fromModel(Cliente cliente) {
-        return new ClienteDTO(cliente);
-    }
-
-    // Método para criar exportar um DTO para Model
     public Cliente toModel() {
-        Cliente cliente = new Cliente();
-
-        cliente.setId(this.id);
-        cliente.setNome(this.nome);
-        cliente.setDataNascimento(this.dataNascimento);
-        cliente.setCpf(this.cpf);
-        cliente.setEndereco(this.endereco);
-        cliente.setEmail(this.email);
-        cliente.setTelefone(this.telefone);
-
-        return cliente;
+        return new Cliente(this.id, this.nome, this.dataNascimento, this.cpf, this.endereco, this.email, this.telefone);
     }
 
-    public Long getId() {
-        return id;
+    public static ClienteDTO fromModel(Cliente cliente) {
+        return new ClienteDTO(cliente.getId(), cliente.getNome(), cliente.getDataNascimento(), cliente.getCpf(), cliente.getEndereco(), cliente.getEmail(), cliente.getTelefone());
     }
 
-    public void setId(Long id) {
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
 

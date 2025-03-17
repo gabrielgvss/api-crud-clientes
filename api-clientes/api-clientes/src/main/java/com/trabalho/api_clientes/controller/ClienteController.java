@@ -1,81 +1,56 @@
 package com.trabalho.api_clientes.controller;
 
 import com.trabalho.api_clientes.dto.ClienteDTO;
-import com.trabalho.api_clientes.model.Cliente;
 import com.trabalho.api_clientes.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/clientes") // Url básica para endpoints
+@RequestMapping("/clientes") // Define o caminho base para todos os endpoints
 public class ClienteController {
+
     @Autowired
     private ClienteService clienteService;
 
-    // Listar todos os clientes:
+    // Listar todos os clientes (paginado)
     @GetMapping
-    public ResponseEntity<List<ClienteDTO>> listarTodos() {
-        List<ClienteDTO> clientes = clienteService.listarTodos();
-        return new ResponseEntity<>(clientes, HttpStatus.OK);
+    public List<ClienteDTO> listarTodos(
+            @RequestParam(defaultValue = "0") int pagina, // Número da página
+            @RequestParam(required = false) String nome) { // Filtro por nome (opcional)
+
+        if (nome != null && !nome.isEmpty()) {
+            // Se o parâmetro "nome" for fornecido, busca clientes por nome
+            return clienteService.buscarPorNome(nome, pagina);
+        } else {
+            // Caso contrário, lista todos os clientes
+            return clienteService.listarTodos(pagina);
+        }
     }
 
     // Buscar cliente por ID
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteDTO> buscarPorId(@PathVariable Long id) {
-        try{
-            ClienteDTO clienteDTO = clienteService.buscarPorId(id);
-            return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public ClienteDTO buscarPorId(@PathVariable int id) {
+        return clienteService.buscarPorId(id);
     }
 
-    // Buscar cliente por nome
-    @GetMapping ("/search")
-    public ResponseEntity<List<ClienteDTO>> buscarPorNome(@RequestParam String nome) {
-        try{
-            List<ClienteDTO> clientes = clienteService.buscarPorNome(nome);
-            return new ResponseEntity<>(clientes, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-    }
-
-    // Salvar novo cliente
+    // Salvar um novo cliente
     @PostMapping
-    public ResponseEntity<ClienteDTO> salvar(@RequestBody ClienteDTO clienteDTO) {
-        try{
-            ClienteDTO clienteDTOSalva = clienteService.salvar(clienteDTO);
-            return new ResponseEntity<>(clienteDTOSalva, HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public ClienteDTO salvar(@RequestBody ClienteDTO clienteDTO) {
+        return clienteService.salvar(clienteDTO);
     }
 
-    // Atualizar cliente existente
+    // Atualizar um cliente existente
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteDTO> atualizar(@PathVariable Long id, @RequestBody ClienteDTO clienteDTO) {
-        try{
-            clienteDTO.setId(id); // Definindo id do cliente que será atualizado
-            ClienteDTO clienteDTOSalva = clienteService.atualizar(clienteDTO);
-            return new ResponseEntity<>(clienteDTOSalva, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public ClienteDTO atualizar(@PathVariable int id, @RequestBody ClienteDTO clienteDTO) {
+        clienteDTO.setId(id); // Garante que o ID do DTO seja o mesmo da URL
+        return clienteService.atualizar(clienteDTO);
     }
 
-    // Excluir registro de cliente
+    // Excluir um cliente por ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<ClienteDTO> excluir(@PathVariable Long id) {
-        try{
-            clienteService.excluir(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public void excluir(@PathVariable int id) {
+        clienteService.excluir(id);
     }
 }
