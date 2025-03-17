@@ -1,0 +1,11 @@
+USE bd_clientes;
+
+CREATE TABLE Cliente (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,    -- Chave primária e auto incremento
+    nome VARCHAR(100) NOT NULL,               -- Nome do cliente, não pode ser nulo
+    data_nascimento DATE NOT NULL,            -- Data de nascimento, não pode ser nula
+    cpf VARCHAR(14) NOT NULL,                 -- CPF, não pode ser nulo
+    endereco VARCHAR(100),                    -- Endereço, pode ser nulo
+    telefone VARCHAR(20),                     -- Telefone, pode ser nulo
+    email VARCHAR(50)                        -- Email, pode ser nulo
+);

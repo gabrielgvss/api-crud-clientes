@@ -1,0 +1,15 @@
+USE bd_clientes;
+
+-- Inserindo dados fictícios para clientes
+INSERT INTO Cliente (nome, data_nascimento, cpf, endereco, telefone, email)
+VALUES
+('João Silva', '1985-03-15', '123.456.789-00', 'Rua A, 123, Centro', '11987654321', 'joao.silva@email.com'),
+('Maria Oliveira', '1990-07-22', '987.654.321-00', 'Avenida B, 456, Bairro X', '11976543210', 'maria.oliveira@email.com'),
+('Carlos Souza', '1975-12-30', '123.987.654-00', 'Rua C, 789, Jardim Y', '11965432109', 'carlos.souza@email.com'),
+('Ana Costa', '2000-01-10', '321.456.987-00', 'Rua D, 101, Vila Z', '11954321098', 'ana.costa@email.com'),
+('Luciana Almeida', '1988-09-05', '567.890.123-00', 'Avenida E, 202, Setor W', '11943210987', 'luciana.almeida@email.com'),
+('Paulo Henrique', '1993-11-20', '222.333.444-55', 'Rua F, 303, Parque A', '11987654322', 'paulo.henrique@email.com'),
+('Fernanda Lima', '1980-02-14', '555.666.777-88', 'Avenida G, 404, Bairro B', '11976543211', 'fernanda.lima@email.com'),
+('Ricardo Pereira', '1995-05-05', '444.555.666-77', 'Rua H, 505, Jardim C', '11965432108', 'ricardo.pereira@email.com'),
+('Beatriz Martins', '1998-08-11', '333.444.555-66', 'Avenida I, 606, Bairro D', '11954321097', 'beatriz.martins@email.com'),
+('Eduardo Santos', '1987-12-25', '111.222.333-44', 'Rua J, 707, Vila E', '11943210986', 'eduardo.santos@email.com');
